@@ -1,15 +1,14 @@
-// index.js
-const express = require("express");
-const cors = require("cors");
-const fetch = require("node-fetch");
+import express from 'express';
+import cors from 'cors';
+import fetch from 'node-fetch';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 
-app.get("/price/:id", async (req, res) => {
-  const id = req.params.id;
+app.get('/price/:id', async (req, res) => {
+  const id = req.params.id.toLowerCase();
   const url = `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`;
 
   try {
@@ -21,11 +20,11 @@ app.get("/price/:id", async (req, res) => {
     }
 
     res.send(data[id].usd.toString());
-  } catch (error) {
-    res.status(500).send("Error: " + error.message);
+  } catch (e) {
+    res.status(500).send("Error: " + e.toString());
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
